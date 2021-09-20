@@ -32,6 +32,11 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 
 ##CONNECT TO DB
+"""If your website hosted on Heroku stopped working after you switched to postgres using the instructions in this section, try the following:
+After getting the DATABASE_URL config variable, create another one named DATABASE_URL1 (or any other name you want), copy/paste the value of the DATABASE_URL variable, but change 'posgres://' to 'postgresql://'
+And in you main.py instead of DATABASE_URL, use DATABASE_URL1
+Hope this saves someone an hour or two, which I had to spend looking for a solution :)
+"""
 app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get(
     "DATABASE_URL1", "sqlite:///blog.db"
 )
@@ -86,7 +91,7 @@ class Comment(db.Model):
     parent_post = relationship("BlogPost", back_populates="comments")
 
 
-db.create_all()
+# db.create_all()
 
 
 def admin_only(f):
